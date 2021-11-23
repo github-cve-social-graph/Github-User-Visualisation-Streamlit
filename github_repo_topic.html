@@ -1,0 +1,136 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 1000px;
+            background-color: #222222;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": true}, "group": 1, "id": "sherlock-project/sherlock", "label": "sherlock-project/sherlock", "shape": "dot", "size": 28231, "title": "sherlock-project/sherlock Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 2, "id": "osint", "label": "osint", "shape": "dot", "size": 2600000, "title": "osint Neighbors:\u003cbr\u003etwintproject/twint\u003cbr\u003emichenriksen/gitrob\u003cbr\u003effffffff0x/Digital-Privacy\u003cbr\u003esmicallef/spiderfoot\u003cbr\u003esundowndev/phoneinfoga\u003cbr\u003elockfale/OSINT-Framework\u003cbr\u003eqeeqbox/social-analyzer\u003cbr\u003eelceef/dnstwist\u003cbr\u003emxrch/GHunt\u003cbr\u003eeth0izzle/shhgit\u003cbr\u003egildas-lormeau/SingleFile\u003cbr\u003eblaCCkHatHacEEkr/PENTESTING-BIBLE\u003cbr\u003emichenriksen/aquatone\u003cbr\u003eshmilylty/OneForAll\u003cbr\u003ejivoi/awesome-osint\u003cbr\u003eOWASP/Amass\u003cbr\u003elaramies/theHarvester\u003cbr\u003eyogeshojha/rengine\u003cbr\u003eprojectdiscovery/subfinder\u003cbr\u003ejofpin/trape\u003cbr\u003eDatalux/Osintgram\u003cbr\u003esherlock-project/sherlock\u003cbr\u003eleebaird/discover\u003cbr\u003ej3ssie/Osmedeus\u003cbr\u003einstaloader/instaloader\u003cbr\u003es0md3v/Photon", "value": 26}, {"font": {"color": true}, "group": 1, "id": "twintproject/twint", "label": "twintproject/twint", "shape": "dot", "size": 11939, "title": "twintproject/twint Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "mxrch/GHunt", "label": "mxrch/GHunt", "shape": "dot", "size": 10375, "title": "mxrch/GHunt Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "blaCCkHatHacEEkr/PENTESTING-BIBLE", "label": "blaCCkHatHacEEkr/PENTESTING-BIBLE", "shape": "dot", "size": 8887, "title": "blaCCkHatHacEEkr/PENTESTING-BIBLE Neighbors:\u003cbr\u003eosint-resources\u003cbr\u003eosint\u003cbr\u003epentesting", "value": 3}, {"font": {"color": true}, "group": 2, "id": "pentesting", "label": "pentesting", "shape": "dot", "size": 400000, "title": "pentesting Neighbors:\u003cbr\u003eblaCCkHatHacEEkr/PENTESTING-BIBLE\u003cbr\u003esmicallef/spiderfoot\u003cbr\u003eyogeshojha/rengine\u003cbr\u003eqeeqbox/social-analyzer", "value": 4}, {"font": {"color": true}, "group": 2, "id": "osint-resources", "label": "osint-resources", "shape": "dot", "size": 200000, "title": "osint-resources Neighbors:\u003cbr\u003eblaCCkHatHacEEkr/PENTESTING-BIBLE\u003cbr\u003elockfale/OSINT-Framework", "value": 2}, {"font": {"color": true}, "group": 1, "id": "qeeqbox/social-analyzer", "label": "qeeqbox/social-analyzer", "shape": "dot", "size": 8387, "title": "qeeqbox/social-analyzer Neighbors:\u003cbr\u003epentesting\u003cbr\u003eosint", "value": 2}, {"font": {"color": true}, "group": 1, "id": "s0md3v/Photon", "label": "s0md3v/Photon", "shape": "dot", "size": 8292, "title": "s0md3v/Photon Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "jivoi/awesome-osint", "label": "jivoi/awesome-osint", "shape": "dot", "size": 7695, "title": "jivoi/awesome-osint Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "smicallef/spiderfoot", "label": "smicallef/spiderfoot", "shape": "dot", "size": 6776, "title": "smicallef/spiderfoot Neighbors:\u003cbr\u003epentesting\u003cbr\u003eosint-framework\u003cbr\u003eosint-reconnaissance\u003cbr\u003eosint", "value": 4}, {"font": {"color": true}, "group": 2, "id": "osint-reconnaissance", "label": "osint-reconnaissance", "shape": "dot", "size": 200000, "title": "osint-reconnaissance Neighbors:\u003cbr\u003esmicallef/spiderfoot\u003cbr\u003eOWASP/Amass", "value": 2}, {"font": {"color": true}, "group": 2, "id": "osint-framework", "label": "osint-framework", "shape": "dot", "size": 200000, "title": "osint-framework Neighbors:\u003cbr\u003esmicallef/spiderfoot\u003cbr\u003elockfale/OSINT-Framework", "value": 2}, {"font": {"color": true}, "group": 1, "id": "jofpin/trape", "label": "jofpin/trape", "shape": "dot", "size": 6703, "title": "jofpin/trape Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "OWASP/Amass", "label": "OWASP/Amass", "shape": "dot", "size": 6122, "title": "OWASP/Amass Neighbors:\u003cbr\u003eosint-reconnaissance\u003cbr\u003eosint", "value": 2}, {"font": {"color": true}, "group": 1, "id": "laramies/theHarvester", "label": "laramies/theHarvester", "shape": "dot", "size": 6084, "title": "laramies/theHarvester Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "sundowndev/phoneinfoga", "label": "sundowndev/phoneinfoga", "shape": "dot", "size": 5789, "title": "sundowndev/phoneinfoga Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "michenriksen/gitrob", "label": "michenriksen/gitrob", "shape": "dot", "size": 5238, "title": "michenriksen/gitrob Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "projectdiscovery/subfinder", "label": "projectdiscovery/subfinder", "shape": "dot", "size": 4424, "title": "projectdiscovery/subfinder Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "michenriksen/aquatone", "label": "michenriksen/aquatone", "shape": "dot", "size": 4377, "title": "michenriksen/aquatone Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "gildas-lormeau/SingleFile", "label": "gildas-lormeau/SingleFile", "shape": "dot", "size": 4308, "title": "gildas-lormeau/SingleFile Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "shmilylty/OneForAll", "label": "shmilylty/OneForAll", "shape": "dot", "size": 4135, "title": "shmilylty/OneForAll Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "instaloader/instaloader", "label": "instaloader/instaloader", "shape": "dot", "size": 3576, "title": "instaloader/instaloader Neighbors:\u003cbr\u003eosint-python\u003cbr\u003eosint", "value": 2}, {"font": {"color": true}, "group": 2, "id": "osint-python", "label": "osint-python", "shape": "dot", "size": 200000, "title": "osint-python Neighbors:\u003cbr\u003eDatalux/Osintgram\u003cbr\u003einstaloader/instaloader", "value": 2}, {"font": {"color": true}, "group": 1, "id": "ffffffff0x/Digital-Privacy", "label": "ffffffff0x/Digital-Privacy", "shape": "dot", "size": 3537, "title": "ffffffff0x/Digital-Privacy Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "yogeshojha/rengine", "label": "yogeshojha/rengine", "shape": "dot", "size": 3392, "title": "yogeshojha/rengine Neighbors:\u003cbr\u003epentesting\u003cbr\u003epenetration-testing\u003cbr\u003eosint", "value": 3}, {"font": {"color": true}, "group": 2, "id": "penetration-testing", "label": "penetration-testing", "shape": "dot", "size": 400000, "title": "penetration-testing Neighbors:\u003cbr\u003eyogeshojha/rengine\u003cbr\u003eDatalux/Osintgram\u003cbr\u003eleebaird/discover\u003cbr\u003ej3ssie/Osmedeus", "value": 4}, {"font": {"color": true}, "group": 1, "id": "j3ssie/Osmedeus", "label": "j3ssie/Osmedeus", "shape": "dot", "size": 3348, "title": "j3ssie/Osmedeus Neighbors:\u003cbr\u003epenetration-testing\u003cbr\u003eosint", "value": 2}, {"font": {"color": true}, "group": 1, "id": "eth0izzle/shhgit", "label": "eth0izzle/shhgit", "shape": "dot", "size": 3301, "title": "eth0izzle/shhgit Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "lockfale/OSINT-Framework", "label": "lockfale/OSINT-Framework", "shape": "dot", "size": 3272, "title": "lockfale/OSINT-Framework Neighbors:\u003cbr\u003eosint-resources\u003cbr\u003eosint\u003cbr\u003eosint-framework", "value": 3}, {"font": {"color": true}, "group": 1, "id": "elceef/dnstwist", "label": "elceef/dnstwist", "shape": "dot", "size": 3098, "title": "elceef/dnstwist Neighbors:\u003cbr\u003eosint", "value": 1}, {"font": {"color": true}, "group": 1, "id": "Datalux/Osintgram", "label": "Datalux/Osintgram", "shape": "dot", "size": 2874, "title": "Datalux/Osintgram Neighbors:\u003cbr\u003eosint-python\u003cbr\u003epenetration-testing\u003cbr\u003eosint", "value": 3}, {"font": {"color": true}, "group": 1, "id": "leebaird/discover", "label": "leebaird/discover", "shape": "dot", "size": 2534, "title": "leebaird/discover Neighbors:\u003cbr\u003epenetration-testing\u003cbr\u003eosint", "value": 2}]);
+        edges = new vis.DataSet([{"from": "sherlock-project/sherlock", "to": "osint"}, {"from": "twintproject/twint", "to": "osint"}, {"from": "mxrch/GHunt", "to": "osint"}, {"from": "blaCCkHatHacEEkr/PENTESTING-BIBLE", "to": "pentesting"}, {"from": "blaCCkHatHacEEkr/PENTESTING-BIBLE", "to": "osint"}, {"from": "blaCCkHatHacEEkr/PENTESTING-BIBLE", "to": "osint-resources"}, {"from": "qeeqbox/social-analyzer", "to": "osint"}, {"from": "qeeqbox/social-analyzer", "to": "pentesting"}, {"from": "s0md3v/Photon", "to": "osint"}, {"from": "jivoi/awesome-osint", "to": "osint"}, {"from": "smicallef/spiderfoot", "to": "osint"}, {"from": "smicallef/spiderfoot", "to": "osint-reconnaissance"}, {"from": "smicallef/spiderfoot", "to": "pentesting"}, {"from": "smicallef/spiderfoot", "to": "osint-framework"}, {"from": "jofpin/trape", "to": "osint"}, {"from": "OWASP/Amass", "to": "osint"}, {"from": "OWASP/Amass", "to": "osint-reconnaissance"}, {"from": "laramies/theHarvester", "to": "osint"}, {"from": "sundowndev/phoneinfoga", "to": "osint"}, {"from": "michenriksen/gitrob", "to": "osint"}, {"from": "projectdiscovery/subfinder", "to": "osint"}, {"from": "michenriksen/aquatone", "to": "osint"}, {"from": "gildas-lormeau/SingleFile", "to": "osint"}, {"from": "shmilylty/OneForAll", "to": "osint"}, {"from": "instaloader/instaloader", "to": "osint"}, {"from": "instaloader/instaloader", "to": "osint-python"}, {"from": "ffffffff0x/Digital-Privacy", "to": "osint"}, {"from": "yogeshojha/rengine", "to": "osint"}, {"from": "yogeshojha/rengine", "to": "pentesting"}, {"from": "yogeshojha/rengine", "to": "penetration-testing"}, {"from": "j3ssie/Osmedeus", "to": "penetration-testing"}, {"from": "j3ssie/Osmedeus", "to": "osint"}, {"from": "eth0izzle/shhgit", "to": "osint"}, {"from": "lockfale/OSINT-Framework", "to": "osint-framework"}, {"from": "lockfale/OSINT-Framework", "to": "osint-resources"}, {"from": "lockfale/OSINT-Framework", "to": "osint"}, {"from": "elceef/dnstwist", "to": "osint"}, {"from": "Datalux/Osintgram", "to": "osint"}, {"from": "Datalux/Osintgram", "to": "osint-python"}, {"from": "Datalux/Osintgram", "to": "penetration-testing"}, {"from": "leebaird/discover", "to": "osint"}, {"from": "leebaird/discover", "to": "penetration-testing"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics",
+            "selection",
+            "renderer",
+            "interaction",
+            "manipulation"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynammic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0.5,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -50,
+            "springConstant": 0.08,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
